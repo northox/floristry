@@ -117,7 +117,7 @@ RSpec.describe Floristry::Web::FormTask, :type => :model do
     end
   end
 
-  describe "return" do
+  describe "reply" do
 
     msg = {
       exid: 'test0-u0-20170831.0132.dijoshiyudu',
@@ -133,7 +133,7 @@ RSpec.describe Floristry::Web::FormTask, :type => :model do
 
       form_task = Floristry::Web::FormTask.create(msg)
       form_task.update_attributes({free_text: 'Updated text'})
-      form_task.return
+      form_task.reply
 
       expect(form_task.current_state).to eq('closed')
     end
@@ -149,9 +149,9 @@ RSpec.describe Floristry::Web::FormTask, :type => :model do
       }
 
       expect(Floristry::WorkflowEngine)
-        .to receive(:return).with(msg[:exid], msg[:nid], expected_merged_msg)
+        .to receive(:reply).with(msg[:exid], msg[:nid], expected_merged_msg)
 
-      form_task.return
+      form_task.reply
     end
   end
 
@@ -163,7 +163,7 @@ RSpec.describe Floristry::Web::FormTask, :type => :model do
         })
 
       sleep 1
-      call_return_on_form_task exid, '0'
+      call_reply_on_form_task exid, '0'
 
       r = Floristry::WorkflowEngine.process(exid)
       expect(r).to be_a(Hash)
@@ -179,7 +179,7 @@ RSpec.describe Floristry::Web::FormTask, :type => :model do
         })
 
       sleep 1
-      call_return_on_form_task control_exid, '0_1'
+      call_reply_on_form_task control_exid, '0_1'
 
       r = Floristry::WorkflowEngine.process(control_exid)
       expect(r).to be_a(Hash)
@@ -200,7 +200,7 @@ RSpec.describe Floristry::Web::FormTask, :type => :model do
         })
 
       sleep 1
-      call_return_on_form_task control_exid, '0_1'
+      call_reply_on_form_task control_exid, '0_1'
 
       r = Floristry::WorkflowEngine.process(control_exid)
       expect(r).to be_a(Hash)

@@ -28,7 +28,7 @@ describe Floristry::WebtaskController do
     expect(r).to be_a(Hash)
     expect(r['status']).to eq('active')
 
-    form_task = call_return_on_form_task exid, '0_1'
+    form_task = call_reply_on_form_task exid, '0_1'
     expect(form_task.current_state).to eq('closed')
 
     r = Floristry::WorkflowEngine.process(exid)

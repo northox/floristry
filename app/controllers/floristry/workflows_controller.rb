@@ -19,7 +19,7 @@ module Floristry
 
         if params[:commit] == 'Close'
 
-          @wf.wi.return
+          @wf.wi.reply
           flash[:notice] = "#{@wf.wi.instance.class.to_s.demodulize} was successfully closed."
           redirect_to action: :edit, id: @wf.exid
         else

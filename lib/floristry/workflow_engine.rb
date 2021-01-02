@@ -30,7 +30,7 @@ module Floristry
       res.content['exid']
     end
 
-    def self.return(exid, nid, payload)
+    def self.reply(exid, nid, payload)
 
       engine('message', :post, { point: 'reply', exid: exid, nid: nid, payload: payload } )
     end

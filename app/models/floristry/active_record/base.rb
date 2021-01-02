@@ -35,7 +35,7 @@ module Floristry::ActiveRecord
 
     # The workflow engine pass the message to Rails through this method 
     #
-    # The msg is then saved as a special attribute to be merged on return/reply.
+    # The msg is then saved as a special attribute to be merged on reply.
     # Bypassing validation is necessary since at this point the data may be
     # inconsistent. Validations will run when data is fed to the model from the
     # frontend procedure.
@@ -79,17 +79,17 @@ module Floristry::ActiveRecord
       write_attribute(:__feid__, @fei.id)
     end
 
-    # Reply/return to the workflow engine
+    # Reply to the workflow engine
     #
     # First it needs to merge back the valuables ActiveRecord Model's attributes
     # within the original saved msg. See merged_msg().
     #
-    def return
+    def reply
 
       begin
 
-        Floristry::WorkflowEngine.return(@fei.exid, @fei.nid, merged_msg)
-        trigger!(:return)
+        Floristry::WorkflowEngine.reply(@fei.exid, @fei.nid, merged_msg)
+        trigger!(:reply)
       end
 
       # To keep in sync with Flor's tick for atomicity
@@ -169,13 +169,13 @@ module Floristry::ActiveRecord
       transition from: :in_progress,  to: :in_progress
     end
 
-    event :return do
+    event :reply do
       transition from: :in_progress,  to: :closed
       transition from: :late,         to: :closed
       transition from: :closed,       to: :closed
     end
 
-    event :return_with_issues do
+    event :reply_with_issues do
       transition from: :in_progress,  to: :terminated_with_issues
       transition from: :late,         to: :terminated_with_issues
     end
